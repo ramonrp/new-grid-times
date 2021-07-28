@@ -17,9 +17,6 @@ const Wrapper = styled.article`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  @media ${QUERIES.tabletAndUp}{
-    min-width: 220px;
-  }
 `;
 
 const Image = styled.img`
@@ -28,7 +25,10 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 4px;
 
-  
+  @media ${QUERIES.tabletAndUp}{
+    height: 132px;
+    width:revert;
+  }
 `;
 
 const Title = styled.h3`
