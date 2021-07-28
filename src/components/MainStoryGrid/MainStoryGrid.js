@@ -6,12 +6,13 @@ import {
   OPINION_STORIES,
   SECONDARY_STORIES,
 } from '../../data';
-
+import {QUERIES} from "../../constants"
 import SectionTitle from '../SectionTitle';
 import MainStory from '../MainStory';
 import SecondaryStory from '../SecondaryStory';
 import OpinionStory from '../OpinionStory';
 import Advertisement from '../Advertisement';
+
 
 const MainStoryGrid = () => {
   return (
@@ -22,19 +23,23 @@ const MainStoryGrid = () => {
 
       <SecondaryStorySection>
         <StoryList>
-          {SECONDARY_STORIES.map((story, index) => (
-            <SecondaryStory key={story.id} {...story} />
+          {SECONDARY_STORIES.map((story, index, array) => (
+            <StoryWrapper key={story.id}>
+              <SecondaryStory key={story.id} {...story} />
+            </StoryWrapper>
           ))}
         </StoryList>
       </SecondaryStorySection>
 
       <OpinionSection>
         <SectionTitle>Opinion</SectionTitle>
-        <StoryList>
+        <OpinionStoryList>
           {OPINION_STORIES.map((story, index) => (
-            <OpinionStory key={story.id} {...story} />
+            <StoryWrapper key={story.id}>
+              <OpinionStory {...story} />
+            </StoryWrapper>
           ))}
-        </StoryList>
+        </OpinionStoryList>
       </OpinionSection>
 
       <AdvertisementSection>
@@ -43,6 +48,7 @@ const MainStoryGrid = () => {
     </Wrapper>
   );
 };
+
 
 const Wrapper = styled.div`
   display: grid;
@@ -53,6 +59,19 @@ const Wrapper = styled.div`
     'advertisement';
   gap: 48px;
   margin-bottom: 48px;
+  @media ${QUERIES.tabletAndUp}{
+    grid-template-areas:
+    'main-story secondary-stories'
+    'opinion-stories opinion-stories'
+    'advertisement advertisement';
+    grid-template-columns: 2fr 1fr;
+  }
+  @media ${QUERIES.laptopAndUp}{
+    grid-template-areas:
+    'main-story secondary-stories opinion-stories'
+    'main-story advertisement advertisement';
+    grid-template-columns: 2.5fr 2fr 1fr;
+  }
 `;
 
 const MainStorySection = styled.section`
@@ -66,7 +85,24 @@ const SecondaryStorySection = styled.section`
 const StoryList = styled.div`
   display: flex;
   flex-direction: column;
+  height:100%;
+  justify-content:space-between;
 `;
+
+const StoryWrapper = styled.div`
+  border-bottom:1px solid var(--color-gray-300);
+  padding-bottom:16px;
+  margin-bottom:16px;
+`
+
+const OpinionStoryList = styled(StoryList)`
+  @media ${QUERIES.tabletOnly}{
+    flex-direction: row;
+    gap:16px;
+  }
+`
+  
+
 
 const OpinionSection = styled.section`
   grid-area: opinion-stories;
